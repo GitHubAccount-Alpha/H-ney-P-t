@@ -1,3 +1,14 @@
+import pandas as pd
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+
+main_dir='C:\data\\'
+os.chdir(main_dir)
+df=pd.read_csv('AllTraffic_1.csv',sep='\t',lineterminator='\r',dtype='str',encoding='utf8')
+
+###Project###
+
 country=df[~df['Tor_flag'].isin(['N'])]
 country=country.groupby(['country']).size().to_frame('number_of_attacks').reset_index().sort_values(by=['number_of_attacks','country'],ascending=[False,True])
 fix, ax = plt.subplots()
