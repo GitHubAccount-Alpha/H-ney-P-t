@@ -1,3 +1,13 @@
+import pandas as pd
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+
+main_dir='C:\data\\'
+os.chdir(main_dir)
+df=pd.read_csv('AllTraffic_1.csv',sep='\t',lineterminator='\r',dtype='str',encoding='utf8')
+
+###Project###
 protocol=pd.read_csv('AllTraffic_1.csv',sep='\t',lineterminator='\r',dtype='str',encoding='utf8')
 protocol=protocol[~protocol['protocol'].isin(['pcap','ssh','ftpd','ftpdatalisten','SipSession','SipCall','ftpd','mysql','RtpUdpStream','mssqld','smbd','epmapper','None'])] 
 protocol=protocol.groupby(['protocol']).size().to_frame('number_of_attacks').reset_index().sort_values(by=['number_of_attacks','protocol'],ascending=[False,True])
