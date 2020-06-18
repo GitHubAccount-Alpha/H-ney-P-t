@@ -1,0 +1,69 @@
+import pandas as pd
+import os
+import numpy as np
+import matplotlib.pyplot as plt
+
+
+main_dir='C:\data\\'
+os.chdir(main_dir)
+
+########################################
+#Project 05
+########################################
+
+df=pd.read_csv('AllTraffic_1.csv',sep='\t',lineterminator='\r',dtype='str',encoding='utf8')
+
+DayHour = df[['week day','hour']]
+DayHour['WeekHour']=DayHour['week day']+' '+DayHour['hour']
+
+
+DayHour=DayHour.groupby(['WeekHour']).size().to_frame('hour').reset_index().sort_values(by=['hour'])
+DayHour[['WeekHour','Hour']]=DayHour['WeekHour'].str.split(' ',expand=True)
+DayHour=DayHour[['WeekHour','Hour','hour']]
+DayHour=DayHour.sort_values('hour',ascending=False).drop_duplicates(['WeekHour'])
+
+WeekDays = ['Sun','Mon','Tue','Wed','Thr','Fri','Sat']
+DayHour['WeekHour'] = pd.Categorical(DayHour['WeekHour'], categories=WeekDays, ordered=True)
+DayHour = DayHour.sort_values('WeekHour')
+
+DayHour['Hour'] = DayHour['Hour'].astype(str).astype(int)
+
+
+########################################
+#Graph01 - Attacks per Weekday
+########################################
+
+fix, ax = plt.subplots()
+DayHour.plot('WeekHour','hour',kind='bar',color='#1f77b4',figsize=(10,7),ax=ax)
+      
+ax.set_title('Attacks per Weekday', fontweight="bold", fontsize=25) 
+ax.set_xlabel('\nWeekday', fontweight="bold", size=15) 
+ax.set_ylabel('Number of Attacks', fontweight="bold", size=15) 
+ax.set_xticklabels(ax.get_xticklabels(), fontsize=14, rotation=45, ha="right")
+
+for p in ax.patches: ax.annotate(np.round(p.get_height(),decimals=2), (p.get_x()+p.get_width()/2., p.get_height()), ha='center', va='center', xytext=(0, 10), textcoords='offset points')
+ax.minorticks_on()
+
+ax.tick_params(which='both',top=True,left=True,right=True,bottom=True)
+ax.grid(which='major', linestyle='-', linewidth='0.5', color='red') 
+ax.grid(which='minor', linestyle=':', linewidth='0.5', color='black')
+
+
+########################################
+#Graph02 - Top Hour of Each Weekday
+########################################
+
+fix, ax = plt.subplots()
+DayHour.plot('WeekHour','Hour',kind='bar',color='#1f77b4',figsize=(10,7),ax=ax)
+
+ax.set_title('Top Hour of Each Weekday', fontweight="bold", fontsize=25) 
+ax.set_xlabel('\nWeekday', fontweight="bold", size=15) 
+ax.set_ylabel('Hour', fontweight="bold", size=15) 
+ax.set_xticklabels(ax.get_xticklabels(), fontsize=14, rotation=45, ha="right")
+
+for p in ax.patches: ax.annotate(np.round(p.get_height(),decimals=2), (p.get_x()+p.get_width()/2., p.get_height()), ha='center', va='center', xytext=(0, 10), textcoords='offset points')
+ax.minorticks_on()
+
+ax.tick_params(which='both',top=True,left=True,right=True,bottom=True)
+ax.grid(which='major', linestyle='-', linewidth='0.5', color='red') 
+ax.grid(which='minor', linestyle=':', linewidth='0.5', color='black')
