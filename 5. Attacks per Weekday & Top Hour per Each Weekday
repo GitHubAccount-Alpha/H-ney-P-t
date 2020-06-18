@@ -3,19 +3,17 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 main_dir='C:\data\\'
 os.chdir(main_dir)
 
 ########################################
-#Project 05
+#Project
 ########################################
 
 df=pd.read_csv('AllTraffic_1.csv',sep='\t',lineterminator='\r',dtype='str',encoding='utf8')
 
 DayHour = df[['week day','hour']]
 DayHour['WeekHour']=DayHour['week day']+' '+DayHour['hour']
-
 
 DayHour=DayHour.groupby(['WeekHour']).size().to_frame('hour').reset_index().sort_values(by=['hour'])
 DayHour[['WeekHour','Hour']]=DayHour['WeekHour'].str.split(' ',expand=True)
@@ -27,7 +25,6 @@ DayHour['WeekHour'] = pd.Categorical(DayHour['WeekHour'], categories=WeekDays, o
 DayHour = DayHour.sort_values('WeekHour')
 
 DayHour['Hour'] = DayHour['Hour'].astype(str).astype(int)
-
 
 ########################################
 #Graph01 - Attacks per Weekday
