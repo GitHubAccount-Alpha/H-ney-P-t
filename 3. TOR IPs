@@ -13,6 +13,7 @@ country['IPCount']=country['source_ip']+" / "+country['country']
 country=country.groupby(['IPCount']).size().to_frame('number_of_attacks').reset_index().sort_values(by=['number_of_attacks','IPCount'],ascending=[False,True])
 fix, ax = plt.subplots()
 country[0:25].plot('IPCount','number_of_attacks',kind='bar',color='#1f77b4',figsize=(10,7),ax=ax)
+
 ax.set_title('Top 25 TOR IP Addresses', fontweight="bold", fontsize=25) 
 ax.set_xlabel('\nIP Address', fontweight="bold", size=15) 
 ax.set_ylabel('Number of Attacks', fontweight="bold", size=15) 
