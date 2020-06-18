@@ -3,12 +3,11 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
-
 main_dir='C:\data\\'
 os.chdir(main_dir)
 
 ########################################
-#Project 06
+#Project
 ########################################
 
 df=pd.read_csv('cowrie_1.csv',sep='\t',lineterminator='\r',dtype='str',encoding='utf8')
@@ -74,8 +73,3 @@ ax.minorticks_on()
 ax.tick_params(which='both',top=True,left=True,right=True,bottom=True)
 ax.grid(which='major', linestyle='-', linewidth='0.5', color='red') 
 ax.grid(which='minor', linestyle=':', linewidth='0.5', color='black') 
-
-
-########################################
-#End of Assignment
-########################################
